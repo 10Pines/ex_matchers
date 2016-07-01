@@ -1,0 +1,34 @@
+defmodule ExMatchers.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :ex_matchers,
+     version: "0.1.0",
+     elixir: "~> 1.3",
+     package: package,
+     description: "Matchers for ExUnit assertions",
+     source_url: "https://github.com/10Pines/ex_matchers",
+     homepage_url: "https://hex.pm/packages/ex_matchers",
+     deps: deps,
+     docs: [
+       main: ExMatcher,
+       readme: "README.md"
+     ]]
+  end
+
+  def application do
+    [applications: []]
+  end
+
+  defp deps do
+    []
+  end
+
+  defp package do
+    [
+      maintainers: ["Emilio Gutter"],
+      licenses: ["MIT"],
+      links: %{"github" => "https://github.com/10Pines/ex_matchers"}
+    ]
+  end
+end
