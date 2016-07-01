@@ -6,7 +6,7 @@ Matchers that provide syntactic sugar around ExUnit assertions.
 
 Full list of matchers is [here](https://github.com/10Pines/ex_matchers/wiki)
 
-```
+```elixir
 defmodule MyTest do
   use ExUnit.Case, async: true
   use ExMatchers
@@ -39,7 +39,7 @@ You can define your own matchers using the `defmatcher` macro.
 
 Example:
 
-```
+```elixir
 defmodule MyMatchers do
   import ExUnit.Assertions
   import ExMatchers.Custom
@@ -79,7 +79,7 @@ end
 You can pass any other arbitrary key to the expect function and it will be passed to the matcher in the last argument.
 
 Example:
-```
+```elixir
   defmodule ReminderIsExpired do
     def to_match(reminder) do
       assert reminder.due_date > DateTime.utc_now
