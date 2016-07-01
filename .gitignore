@@ -19,3 +19,5 @@ erl_crash.dump
 # Ignore IDE files
 .idea/
 *.iml
+# Ignore other files
+.DS_Store
