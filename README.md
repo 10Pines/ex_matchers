@@ -101,7 +101,7 @@ defmodule MyTest do
     expect a_reminder, to: be_expired
   end
 
-  test "is not archived" do
+  test "is expired on due date" do
     a_reminder = %Reminder{due_date: DateTime.utc_now}
     expect a_reminder, to: be_expired,
                        on: DateTime.utc_now
