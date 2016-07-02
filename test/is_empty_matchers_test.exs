@@ -26,12 +26,9 @@ defmodule IsEmptyMatchersTest do
     end
 
     test "is not empty fails assertion" do
-      try do
-        expect nil, to_not: be_empty
-        flunk "Not nil assertion did not fail"
-       rescue
-        e in ExUnit.AssertionError -> assert e.message == "Nil is empty"
-      end
+      assert_function = fn() -> expect nil, to_not: be_empty end
+      expect assert_function, to: raise_error(ExUnit.AssertionError),
+                            with: ~r/Nil is empty/
     end
   end
 end
