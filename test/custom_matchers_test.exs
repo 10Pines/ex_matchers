@@ -2,77 +2,79 @@ defmodule CustomMatchersTest do
   use ExUnit.Case, async: true
   use ExMatchers
 
-  defmodule Invoice do
-    defstruct number: nil, payed: false, amount: nil
+  defmodule Pizza do
+    defstruct cheeses: [], toppings: [], vegetarian: false, price: 0.0
   end
 
   describe "a custom matcher without arguments" do
-    defmodule InvoiceIsPayed do
-      def to_match(invoice) do
-        assert invoice.payed
+    defmodule PizzaIsVegetarian do
+      def to_match(pizza) do
+        assert pizza.vegetarian
       end
-      def to_not_match(invoice) do
-        refute invoice.payed
+      def to_not_match(pizza) do
+        refute pizza.vegetarian
       end
     end
-    defmatcher be_payed, with: InvoiceIsPayed
+    defmatcher be_veggie, with: PizzaIsVegetarian
 
-    test "is payed" do
-      an_invoice = %Invoice{number: 100, payed: true, amount: 100}
-      expect an_invoice, to: be_payed
+    test "is veggie" do
+      a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}
+      expect a_pizza, to: be_veggie
     end
 
-    test "is not payed" do
-      an_invoice = %Invoice{number: 100, payed: false, amount: 100}
-      expect an_invoice, to_not: be_payed
+    test "is not veggie" do
+      a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :salami], vegetarian: false, price: 15.12}
+      expect a_pizza, to_not: be_veggie
     end
   end
 
-  describe "a custom matcher with arguments" do
-    defmodule InvoiceReceivableAmount do
-      def to_match(invoice, amount) do
-        assert invoice.amount == amount
+  describe "a custom matcher with argument" do
+    defmodule PizzaIncludeTopping do
+      def to_match(pizza, topping) do
+        assert topping in pizza.toppings
       end
-      def to_not_match(invoice, amount) do
-        refute invoice.amount == amount
+      def to_not_match(pizza, topping) do
+        refute topping in pizza.toppings
       end
     end
-    defmatcher has_received(amount), with: InvoiceReceivableAmount
+
+    defmatcher include_topping(topping), with: PizzaIncludeTopping
 
     setup do
-      %{actual: %Invoice{number: 100, payed: false, amount: 100}}
+      %{actual: %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :salami], vegetarian: false, price: 15.12}}
     end
 
-    test "receives an amount", %{actual: an_invoice} do
-      expect an_invoice, to: has_received(100)
+    test "includes topping", %{actual: a_pizza} do
+      expect a_pizza, to: include_topping(:salami)
     end
-    test "do not receive and amount", %{actual: an_invoice} do
-      expect an_invoice, to_not: has_received(200)
+
+    test "do not include topping", %{actual: a_pizza} do
+      expect a_pizza, to_not: include_topping(:brocoli)
     end
   end
 
-  describe "a custom matcher with argument and delta" do
-    defmodule InvoiceReceivableAmountWithDelta do
-      def to_match(invoice, amount, delta) do
-        assert_in_delta invoice.amount, amount, delta
+  describe "a custom matcher with arguments and delta" do
+    defmodule PizzaHasPrice do
+      def to_match(pizza, price, delta) do
+        assert_in_delta pizza.price, price, delta
       end
-      def to_not_match(invoice, amount, delta) do
-        refute_in_delta invoice.amount, amount, delta
+      def to_not_match(pizza, price, delta) do
+        refute_in_delta pizza.price, price, delta
       end
     end
-
-    defmatcher has_payed(amount), with: InvoiceReceivableAmountWithDelta
+    defmatcher has_price(price), with: PizzaHasPrice
 
     setup do
-      %{actual: %Invoice{number: 100, payed: false, amount: 100.0}}
+      %{actual: %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}}
     end
 
-    test "receives an amount", %{actual: an_invoice} do
-      expect an_invoice, to: has_payed(95.0), within: 10.0
+    test "is priced", %{actual: a_pizza} do
+      expect a_pizza, to:     has_price(14.2),
+                      within: 0.10
     end
-
-    test "do not receive and amount", %{actual: an_invoice} do
-      expect an_invoice, to_not: has_payed(95.0), within: 4.0
+    test "is not priced", %{actual: a_pizza} do
+      expect a_pizza, to_not: has_price(14.2),
+                      within: 0.01
     end
   end
 end
