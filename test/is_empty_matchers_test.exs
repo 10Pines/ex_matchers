@@ -15,6 +15,11 @@ defmodule IsEmptyMatchersTest do
       expect "", to: be_empty
     end
 
+    test "fails when non-empty string" do
+      assert_function = fn() -> expect "Hello", to: be_empty end
+      expect assert_function, to: raise_error(ExUnit.AssertionError)
+    end
+
     test "a list" do
       expect [], to: be_empty
     end

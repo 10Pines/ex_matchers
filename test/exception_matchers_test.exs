@@ -23,16 +23,16 @@ defmodule ExceptionMatchersTest do
     end
 
     test "does not raise an error", %{actual: a_function} do
-      expect_function = fn() -> expect a_function, to: raise_error(ArgumentError) end
-      assert_raise ExUnit.AssertionError, ~r/Expected exception ArgumentError but nothing was raised/, expect_function
+      assert_function = fn() -> expect a_function, to: raise_error(ArgumentError) end
+      assert_raise ExUnit.AssertionError, ~r/Expected exception ArgumentError but nothing was raised/, assert_function
     end
 
     test "does not raise an error with message", %{actual: a_function} do
-      expect_function = fn() ->
+      assert_function = fn() ->
         expect a_function, to: raise_error(ArgumentError),
                          with: "invalid argument foo"
       end
-      assert_raise ExUnit.AssertionError, ~r/Expected exception ArgumentError but nothing was raised/, expect_function
+      assert_raise ExUnit.AssertionError, ~r/Expected exception ArgumentError but nothing was raised/, assert_function
     end
   end
 end
