@@ -44,19 +44,19 @@ defmodule MyMatchers do
   import ExUnit.Assertions
   import ExMatchers.Custom
 
-  defmodule Reminder do
-    defstruct title: "", due_date: nil, archived: false
+  defmodule Pizza do
+    defstruct cheeses: [], toppings: [], vegetarian: false, price: 0.0
   end
 
-  defmodule ReminderIsArchived do
-    def to_match(reminder) do
-      assert reminder.archived
+  defmodule PizzaIsVegetarian do
+    def to_match(pizza) do
+      assert pizza.vegetarian
     end
-    def to_not_match(reminder) do
-      refute reminder.archived
+    def to_not_match(pizza) do
+      refute pizza.vegetarian
     end
   end
-  defmatcher be_archived, with: ReminderIsArchived
+  defmatcher be_veggie, with: PizzaIsVegetarian
 end
 
 defmodule MyTest do
@@ -64,14 +64,14 @@ defmodule MyTest do
   use ExMatchers
   import MyMatchers
 
-  test "is archived" do
-    a_reminder = %Reminder{archived: true}
-    expect a_reminder, to: be_archived
+  test "is veggie" do
+    a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}
+    expect a_pizza, to: be_veggie
   end
 
-  test "is not archived" do
-    a_reminder = %Reminder{archived: false}
-    expect a_reminder, to_not: be_archived
+  test "is not veggie" do
+    a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :salami], vegetarian: false, price: 15.12}
+    expect a_pizza, to_not: be_veggie
   end
 end
 ```
@@ -80,15 +80,15 @@ You can pass any other arbitrary key to the expect function and it will be passe
 
 Example:
 ```elixir
-  defmodule ReminderIsExpired do
-    def to_match(reminder) do
-      assert reminder.due_date > DateTime.utc_now
+  defmodule PizzaHasPrice do
+    def to_match(pizza, price, delta) do
+      assert_in_delta pizza.price, price, delta
     end
-    def to_match(reminder, due_date) do
-      assert reminder.due_date > due_date
+    def to_not_match(pizza, price, delta) do
+      refute_in_delta pizza.price, price, delta
     end
   end
-  defmatcher be_expired, with: ReminderIsExpired
+  defmatcher has_price(price), with: PizzaHasPrice
 end
 
 defmodule MyTest do
@@ -96,15 +96,13 @@ defmodule MyTest do
   use ExMatchers
   import MyMatchers
 
-  test "is expired" do
-    a_reminder = %Reminder{due_date: DateTime.utc_now}
-    expect a_reminder, to: be_expired
+  setup do
+    %{actual: %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}}
   end
 
-  test "is expired on due date" do
-    a_reminder = %Reminder{due_date: DateTime.utc_now}
-    expect a_reminder, to: be_expired,
-                       on: DateTime.utc_now
+  test "is priced", %{actual: a_pizza} do
+    expect a_pizza, to:     has_price(14.2),
+                    within: 0.10
   end
 end
 ```
