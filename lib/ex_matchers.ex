@@ -11,6 +11,7 @@ defmodule ExMatchers do
       import ExMatchers.LessOrEqualThan
       import ExMatchers.GreaterThan
       import ExMatchers.GreaterOrEqualThan
+      import ExMatchers.Match
       import ExMatchers.RaiseError
       import ExMatchers.Custom
     end

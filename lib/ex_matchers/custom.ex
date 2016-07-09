@@ -14,7 +14,7 @@ defmodule ExMatchers.Custom do
     end
   end
 
-  defmacro defmatcher(definition={name,_,args}, with: matcher_module) do
+  defmacro defmatcher({name,_,args}, with: matcher_module) do
     expected = args |> hd |> Tuple.to_list |> hd
     quote do
       def unquote(name)(expected) do

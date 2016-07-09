@@ -46,5 +46,13 @@ defmodule StringMatchersTest do
     test "does not end with substring", %{actual: a_string} do
       expect a_string, to_not: end_with("Clojure")
     end
+
+    test "matches a regex", %{actual: a_string} do
+      expect a_string, to: match(~r/ello/)
+    end
+
+    test "does not match a regex", %{actual: a_string} do
+      expect a_string, to_not: match(~r/Bye/)
+    end
   end
 end
