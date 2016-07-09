@@ -1,16 +1,16 @@
-defmodule ExMatchers.EndsWith do
+defmodule ExMatchers.EndWith do
   @moduledoc false
 
   import ExUnit.Assertions
   import ExMatchers.Custom
 
-  defprotocol EndsWithMatcher do
+  defprotocol EndWithMatcher do
     @fallback_to_any true
     def to_match(actual, another)
     def to_not_match(actual, another)
   end
 
-  defimpl EndsWithMatcher, for: BitString do
+  defimpl EndWithMatcher, for: BitString do
     def to_match(actual, substring) do
       assert String.ends_with?(actual, substring)
     end
@@ -19,7 +19,7 @@ defmodule ExMatchers.EndsWith do
     end
   end
 
-  defimpl EndsWithMatcher, for: Any do
+  defimpl EndWithMatcher, for: Any do
     def to_match(actual, another) do
       flunk "Ends with not supported between #{actual} and #{another}"
     end
@@ -28,6 +28,6 @@ defmodule ExMatchers.EndsWith do
     end
   end
 
-  defmatcher end_with(substring), with: EndsWithMatcher
+  defmatcher end_with(substring), with: EndWithMatcher
 
 end

@@ -1,16 +1,16 @@
-defmodule ExMatchers.StartsWith do
+defmodule ExMatchers.StartWith do
   @moduledoc false
 
   import ExUnit.Assertions
   import ExMatchers.Custom
 
-  defprotocol StartsWithMatcher do
+  defprotocol StartWithMatcher do
     @fallback_to_any true
     def to_match(actual, another)
     def to_not_match(actual, another)
   end
 
-  defimpl StartsWithMatcher, for: BitString do
+  defimpl StartWithMatcher, for: BitString do
     def to_match(actual, substring) do
       assert String.starts_with?(actual, substring)
     end
@@ -19,7 +19,7 @@ defmodule ExMatchers.StartsWith do
     end
   end
 
-  defimpl StartsWithMatcher, for: Any do
+  defimpl StartWithMatcher, for: Any do
     def to_match(actual, another) do
       flunk "Starts with not supported between #{actual} and #{another}"
     end
@@ -28,6 +28,6 @@ defmodule ExMatchers.StartsWith do
     end
   end
 
-  defmatcher start_with(substring), with: StartsWithMatcher
+  defmatcher start_with(substring), with: StartWithMatcher
 
 end

@@ -1,10 +1,10 @@
-defmodule ExMatchers.Equals do
+defmodule ExMatchers.Equal do
   @moduledoc false
 
   import ExUnit.Assertions
   import ExMatchers.Custom
 
-  defprotocol EqualsMatcher do
+  defprotocol EqualMatcher do
     @fallback_to_any true
     def to_match(actual, another)
     def to_match(actual, another, delta)
@@ -12,7 +12,7 @@ defmodule ExMatchers.Equals do
     def to_not_match(actual, another, delta)
   end
 
-  defimpl EqualsMatcher, for: Float do
+  defimpl EqualMatcher, for: Float do
     def to_match(actual, another) do
       assert actual == another
     end
@@ -27,20 +27,20 @@ defmodule ExMatchers.Equals do
     end
   end
 
-  defimpl EqualsMatcher, for: Any do
+  defimpl EqualMatcher, for: Any do
     def to_match(actual, another) do
       assert actual == another
     end
     def to_match(actual, another, delta) do
-      flunk "Equals within delta not supported between #{actual} and #{another} within #{delta}"
+      flunk "Equal within delta not supported between #{actual} and #{another} within #{delta}"
     end
     def to_not_match(actual, another) do
       refute actual == another
     end
     def to_not_match(actual, another, delta) do
-      flunk "Equals within delta not supported between #{actual} and #{another} within #{delta}"
+      flunk "Equal within delta not supported between #{actual} and #{another} within #{delta}"
     end
   end
 
-  defmatcher eq(another), with: EqualsMatcher
+  defmatcher eq(another), with: EqualMatcher
 end

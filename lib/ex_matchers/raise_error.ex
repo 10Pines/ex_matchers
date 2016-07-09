@@ -1,10 +1,10 @@
-defmodule ExMatchers.Exception do
+defmodule ExMatchers.RaiseError do
   @moduledoc false
 
   import ExUnit.Assertions
   import ExMatchers.Custom
 
-  defmodule ErrorMatcher do
+  defmodule RaiseErrorMatcher do
     def to_match(function, error) do
       assert_raise error, function
     end
@@ -13,5 +13,5 @@ defmodule ExMatchers.Exception do
     end
   end
 
-  defmatcher raise_error(error), with: ErrorMatcher
+  defmatcher raise_error(error), with: RaiseErrorMatcher
 end
