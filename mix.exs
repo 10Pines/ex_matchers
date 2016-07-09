@@ -26,6 +26,8 @@ defmodule ExMatchers.Mixfile do
 
   defp package do
     [
+      name: :ex_matchers,
+      files: ["lib", "mix.exs"],
       maintainers: ["Emilio Gutter"],
       licenses: ["MIT"],
       links: %{"github" => "https://github.com/10Pines/ex_matchers"}
