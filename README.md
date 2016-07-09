@@ -1,6 +1,6 @@
 # ExMatchers
 
-Matchers that provide syntactic sugar around ExUnit assertions.
+Matchers that provide syntactic sugar around ExUnit assertions. The goal of this library is to help writing readable tests and to facilitate the process of writing reusable domain specific custom matchers.
 
 ## Built in matchers
 
@@ -107,6 +107,11 @@ defmodule MyTest do
   end
 end
 ```
+
+## Future work
+
+* Range matchers
+* New library for Ecto and Phoenix matchers
 
 ## Installation
 
