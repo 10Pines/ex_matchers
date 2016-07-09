@@ -11,8 +11,10 @@ defmodule ExMatchers.Mixfile do
      homepage_url: "https://hex.pm/packages/ex_matchers",
      deps: deps,
      docs: [
-       main: ExMatcher,
-       readme: "README.md"
+       main: "readme",
+       extras: [
+         "README.md"
+       ]
      ]]
   end
 
@@ -21,7 +23,9 @@ defmodule ExMatchers.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.12.0", only: :dev}
+    ]
   end
 
   defp package do
