@@ -13,19 +13,19 @@ defmodule MyTest do
   use ExMatchers
 
   test "returns an empty result" do
-    result = # do something
+    result = []
 
     expect result, to: be_empty
   end
 
   test "returns a non-empty result" do
-    result = # do something
+    result = [1, 2, 3]
 
     expect result, to_not: be_empty
   end
 
   test "returns a map with the meaning of life" do
-    result = # calculate meaning of life
+    result = calculate_meaning_of_life()
 
     expect result, to:   include(:meaning_of_life),
                    with: 42
@@ -67,11 +67,13 @@ defmodule MyTest do
 
   test "is veggie" do
     a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}
+
     expect a_pizza, to: be_veggie
   end
 
   test "is not veggie" do
     a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :salami], vegetarian: false, price: 15.12}
+
     expect a_pizza, to_not: be_veggie
   end
 end
