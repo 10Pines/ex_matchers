@@ -2,10 +2,11 @@
 
 Matchers that provide syntactic sugar around ExUnit assertions.
 
-## Example
+## Built in matchers
 
 Full list of matchers is [here](https://github.com/10Pines/ex_matchers/wiki)
 
+Example:
 ```elixir
 defmodule MyTest do
   use ExUnit.Case, async: true
