@@ -1,6 +1,7 @@
 defmodule IsEmptyMatchersTest do
   use ExUnit.Case, async: true
   use ExMatchers
+  import AssertHelpers
 
   describe "is empty" do
     test "a tuple" do
@@ -15,13 +16,26 @@ defmodule IsEmptyMatchersTest do
       expect "", to: be_empty
     end
 
-    test "fails when non-empty string" do
-      assert_function = fn() -> expect "Hello", to: be_empty end
-      expect assert_function, to: raise_error(ExUnit.AssertionError)
+    test "a list" do
+      expect [], to: be_empty
+    end
+  end
+
+  describe "is empty failed assertions" do
+    test "a string" do
+      expect_assertion_to_fail fn() -> expect "Hello", to: be_empty end
+    end
+
+    test "a map" do
+      expect_assertion_to_fail fn() -> expect %{a: 1}, to: be_empty end
     end
 
     test "a list" do
-      expect [], to: be_empty
+      expect_assertion_to_fail fn() -> expect [1, 2], to: be_empty end
+    end
+
+    test "a tuple" do
+      expect_assertion_to_fail fn() -> expect {:ok, 1}, to: be_empty end
     end
   end
 
@@ -31,9 +45,7 @@ defmodule IsEmptyMatchersTest do
     end
 
     test "is not empty fails assertion" do
-      assert_function = fn() -> expect nil, to_not: be_empty end
-      expect assert_function, to: raise_error(ExUnit.AssertionError),
-                            with: ~r/Nil is empty/
+      expect_assertion_to_fail fn() -> expect nil, to_not: be_empty end
     end
   end
 end
