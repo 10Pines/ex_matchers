@@ -19,6 +19,24 @@ defmodule ExMatchers.StartWith do
     end
   end
 
+  defimpl StartWithMatcher, for: List do
+    def to_match(actual, element) do
+      assert List.first(actual) == element
+    end
+    def to_not_match(actual, element) do
+      refute List.first(actual) == element
+    end
+  end
+
+  defimpl StartWithMatcher, for: Range do
+    def to_match(actual, element) do
+      assert Enum.at(actual, 0) == element
+    end
+    def to_not_match(actual, element) do
+      refute Enum.at(actual, 0) == element
+    end
+  end
+
   defimpl StartWithMatcher, for: Any do
     def to_match(actual, another) do
       flunk "Starts with not supported between #{actual} and #{another}"
@@ -28,6 +46,6 @@ defmodule ExMatchers.StartWith do
     end
   end
 
-  defmatcher start_with(substring), with: StartWithMatcher
+  defmatcher start_with(substring), matcher: StartWithMatcher
 
 end

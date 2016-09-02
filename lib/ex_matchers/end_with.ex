@@ -19,6 +19,26 @@ defmodule ExMatchers.EndWith do
     end
   end
 
+  defimpl EndWithMatcher, for: List do
+    def to_match(actual, element) do
+      assert List.last(actual) == element
+    end
+    def to_not_match(actual, element) do
+      refute List.last(actual) == element
+    end
+  end
+
+  defimpl EndWithMatcher, for: Range do
+    def to_match(actual, element) do
+      _first..last = actual
+      assert last == element
+    end
+    def to_not_match(actual, element) do
+      _first..last = actual
+      refute last == element
+    end
+  end
+
   defimpl EndWithMatcher, for: Any do
     def to_match(actual, another) do
       flunk "Ends with not supported between #{actual} and #{another}"
@@ -28,6 +48,6 @@ defmodule ExMatchers.EndWith do
     end
   end
 
-  defmatcher end_with(substring), with: EndWithMatcher
+  defmatcher end_with(substring), matcher: EndWithMatcher
 
 end

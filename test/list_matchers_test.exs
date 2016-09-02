@@ -31,6 +31,22 @@ defmodule ListMatchersTest do
     test "does not include element", %{actual: a_list} do
       expect a_list, to_not: include(6)
     end
+
+    test "starts with element", %{actual: a_list} do
+      expect a_list, to: start_with(1)
+    end
+
+    test "does not start with element", %{actual: a_list} do
+      expect a_list, to_not: start_with(2)
+    end
+
+    test "ends with element", %{actual: a_list} do
+      expect a_list, to: end_with(5)
+    end
+
+    test "does not end with element", %{actual: a_list} do
+      expect a_list, to_not: end_with(2)
+    end
   end
 
   describe "a list failed assertions" do
@@ -61,5 +77,22 @@ defmodule ListMatchersTest do
     test "does not include element", %{actual: a_list} do
       expect_assertion_to_fail fn() -> expect a_list, to_not: include(4) end
     end
+
+    test "starts with element", %{actual: a_list} do
+      expect_assertion_to_fail fn() -> expect a_list, to_not: start_with(1) end
+    end
+
+    test "does not start with element", %{actual: a_list} do
+      expect_assertion_to_fail fn() -> expect a_list, to: start_with(2) end
+    end
+
+    test "ends with element", %{actual: a_list} do
+      expect_assertion_to_fail fn() -> expect a_list, to_not: end_with(5) end
+    end
+
+    test "does not end with element", %{actual: a_list} do
+      expect_assertion_to_fail fn() -> expect a_list, to: end_with(2) end
+    end
+
   end
 end

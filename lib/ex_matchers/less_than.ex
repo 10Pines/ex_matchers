@@ -28,5 +28,5 @@ defmodule ExMatchers.LessThan do
     end
   end
 
-  defmatcher be_less_than(another), with: LessThanMatcher
+  defmatcher be_less_than(another), matcher: LessThanMatcher
 end

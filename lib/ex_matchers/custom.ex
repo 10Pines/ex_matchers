@@ -1,7 +1,7 @@
 defmodule ExMatchers.Custom do
   @moduledoc false
 
-  defmacro defmatcher(definition={_,_,nil}, with: matcher_module) do
+  defmacro defmatcher(definition={_,_,nil}, matcher: matcher_module) do
     quote do
       def unquote(definition) do
         fn(actual, assertion) ->
@@ -14,16 +14,28 @@ defmodule ExMatchers.Custom do
     end
   end
 
-  defmacro defmatcher({name,_,args}, with: matcher_module) do
-    expected = args |> hd |> Tuple.to_list |> hd
+  defmacro defmatcher(definition={_,_,args}, matcher: matcher_module) do
     quote do
-      def unquote(name)(expected) do
+      def unquote(definition) do
         fn(actual, assertion) ->
           case assertion do
-            :assert -> unquote(matcher_module).to_match(actual, expected)
-            :refute -> unquote(matcher_module).to_not_match(actual, expected)
-            {:assert, extra} -> unquote(matcher_module).to_match(actual, expected, extra)
-            {:refute, extra} -> unquote(matcher_module).to_not_match(actual, expected, extra)
+            :assert -> unquote(matcher_module).to_match(actual, unquote_splicing(args))
+            :refute -> unquote(matcher_module).to_not_match(actual, unquote_splicing(args))
+          end
+        end
+      end
+    end
+  end
+
+  defmacro defmatcher(definition={_,_,args}, with: _, matcher: matcher_module) do
+    quote do
+      def unquote(definition) do
+        fn(actual, assertion) ->
+          case assertion do
+            :assert -> unquote(matcher_module).to_match(actual, unquote_splicing(args))
+            :refute -> unquote(matcher_module).to_not_match(actual, unquote_splicing(args))
+            {:assert, extra} -> unquote(matcher_module).to_match(actual, unquote_splicing(args), extra)
+            {:refute, extra} -> unquote(matcher_module).to_not_match(actual, unquote_splicing(args), extra)
           end
         end
       end

@@ -41,6 +41,21 @@ defmodule ExMatchers.Include do
     end
   end
 
+  defimpl IncludeMatcher, for: Range do
+    def to_match(range, element) do
+      assert Enum.member?(range, element)
+    end
+    def to_match(range, element, expected_value) do
+      flunk "Includes not supported from #{element} in #{range} with #{expected_value}"
+    end
+    def to_not_match(range, element) do
+      refute Enum.member?(range, element)
+    end
+    def to_not_match(range, element, expected_value) do
+      flunk "Includes not supported from #{element} in #{range} with #{expected_value}"
+    end
+  end
+
   defimpl IncludeMatcher, for: Tuple do
     def to_match(tuple, element) do
       assert Tuple.to_list(tuple) |> Enum.member?(element)
@@ -82,5 +97,5 @@ defmodule ExMatchers.Include do
     end
   end
 
-  defmatcher include(key), with: IncludeMatcher
+  defmatcher include(key), with: value, matcher: IncludeMatcher
 end

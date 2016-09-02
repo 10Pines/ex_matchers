@@ -72,6 +72,21 @@ defmodule ExMatchers.Size do
     end
   end
 
+  defimpl SizeMatcher, for: Range do
+    def to_match(value) do
+      to_match(value, 0)
+    end
+    def to_match(value, size) do
+      assert Enum.count(value) == size
+    end
+    def to_not_match(value) do
+      to_not_match(value, 0)
+    end
+    def to_not_match(value, size) do
+      refute Enum.count(value) == size
+    end
+  end
+
   defimpl SizeMatcher, for: Atom do
     def to_match(nil), do: true
     def to_match(nil, _size), do: true
@@ -94,7 +109,7 @@ defmodule ExMatchers.Size do
     end
   end
 
-  defmatcher be_empty,           with: SizeMatcher
-  defmatcher have_items(number), with: SizeMatcher
+  defmatcher be_empty,           matcher: SizeMatcher
+  defmatcher have_items(number), matcher: SizeMatcher
 
 end

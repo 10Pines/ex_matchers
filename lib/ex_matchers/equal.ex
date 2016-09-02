@@ -42,5 +42,5 @@ defmodule ExMatchers.Equal do
     end
   end
 
-  defmatcher eq(another), with: EqualMatcher
+  defmatcher eq(another), with: delta, matcher: EqualMatcher
 end

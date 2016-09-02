@@ -28,5 +28,5 @@ defmodule ExMatchers.GreaterThan do
     end
   end
 
-  defmatcher be_greater_than(another), with: GreaterThanMatcher
+  defmatcher be_greater_than(another), matcher: GreaterThanMatcher
 end

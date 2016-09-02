@@ -57,7 +57,7 @@ defmodule MyMatchers do
       refute pizza.vegetarian
     end
   end
-  defmatcher be_veggie, with: PizzaIsVegetarian
+  defmatcher be_veggie, matcher: PizzaIsVegetarian
 end
 
 defmodule MyTest do
@@ -79,20 +79,19 @@ defmodule MyTest do
 end
 ```
 
-You can pass any other arbitrary key to the expect function and it will be passed to the matcher in the last argument.
+By adding to the matcher definition a `{with: something}`, then you can pass any other arbitrary `{key: value}` to the expect function and it will be passed to the matcher in the last argument.
 
 Example:
 ```elixir
-  defmodule PizzaHasPrice do
-    def to_match(pizza, price, delta) do
-      assert_in_delta pizza.price, price, delta
-    end
-    def to_not_match(pizza, price, delta) do
-      refute_in_delta pizza.price, price, delta
-    end
+defmodule PizzaHasPrice do
+  def to_match(pizza, price, delta) do
+    assert_in_delta pizza.price, price, delta
   end
-  defmatcher has_price(price), with: PizzaHasPrice
+  def to_not_match(pizza, price, delta) do
+    refute_in_delta pizza.price, price, delta
+  end
 end
+defmatcher has_price(price), with: delta, matcher: PizzaHasPrice
 
 defmodule MyTest do
   use ExUnit.Case, async: true
@@ -112,7 +111,6 @@ end
 
 ## Future work
 
-* Range matchers
 * New library for Ecto and Phoenix matchers
 
 ## Installation
@@ -121,6 +119,6 @@ Add `ex_matchers` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ex_matchers, "~> 0.1.0", only: :test}]
+  [{:ex_matchers, "~> 0.1.1", only: :test}]
 end
 ```

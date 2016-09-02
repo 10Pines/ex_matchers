@@ -28,6 +28,6 @@ defmodule ExMatchers.Match do
     end
   end
 
-  defmatcher match(regex), with: MatchMatcher
+  defmatcher match(regex), matcher: MatchMatcher
 
 end

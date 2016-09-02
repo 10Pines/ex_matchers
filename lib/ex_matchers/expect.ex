@@ -12,8 +12,8 @@ defmodule ExMatchers.Expect do
   def expect(actual_value, options) do
     matcher = options[:to] || options[:to_not]
     action = if Keyword.has_key?(options, :to), do: :assert, else: :refute
-    expected_value = options |> Keyword.drop([:to, :to_not]) |> Keyword.values |> List.first
-    matcher.(actual_value, {action, expected_value})
+    extra_arguments = options |> Keyword.drop([:to, :to_not]) |> Keyword.values |> List.first
+    matcher.(actual_value, {action, extra_arguments})
   end
 
 end

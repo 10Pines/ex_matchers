@@ -3,7 +3,7 @@ defmodule ExMatchers.Mixfile do
 
   def project do
     [app: :ex_matchers,
-     version: "0.1.0",
+     version: "0.1.1",
      elixir: "~> 1.3",
      package: package,
      description: "Matchers for ExUnit assertions",

@@ -15,7 +15,7 @@ defmodule CustomMatchersTest do
         refute pizza.vegetarian
       end
     end
-    defmatcher be_veggie, with: PizzaIsVegetarian
+    defmatcher be_veggie, matcher: PizzaIsVegetarian
 
     test "is veggie" do
       a_pizza = %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}
@@ -38,7 +38,7 @@ defmodule CustomMatchersTest do
       end
     end
 
-    defmatcher include_topping(topping), with: PizzaIncludeTopping
+    defmatcher include_topping(topping), matcher: PizzaIncludeTopping
 
     setup do
       %{actual: %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :salami], vegetarian: false, price: 15.12}}
@@ -62,7 +62,7 @@ defmodule CustomMatchersTest do
         refute_in_delta pizza.price, price, delta
       end
     end
-    defmatcher has_price(price), with: PizzaHasPrice
+    defmatcher has_price(price), with: delta, matcher: PizzaHasPrice
 
     setup do
       %{actual: %Pizza{cheeses: [:mozzarella], toppings: [:tomato, :basil], vegetarian: true, price: 14.25}}
