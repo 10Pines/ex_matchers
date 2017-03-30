@@ -21,7 +21,7 @@ defmodule StringMatchersTest do
     end
 
     test "is not empty", %{actual: a_string} do
-      expect a_string, to_not: be_empty
+      expect a_string, to_not: be_empty()
     end
 
     test "includes substring", %{actual: a_string} do
@@ -75,7 +75,7 @@ defmodule StringMatchersTest do
     end
 
     test "is not empty" do
-      expect_assertion_to_fail fn() -> expect  "", to_not: be_empty end
+      expect_assertion_to_fail fn() -> expect  "", to_not: be_empty() end
     end
 
     test "includes substring", %{actual: a_string} do

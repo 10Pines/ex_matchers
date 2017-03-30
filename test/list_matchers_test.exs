@@ -21,7 +21,7 @@ defmodule ListMatchersTest do
     end
 
     test "is not empty", %{actual: a_list} do
-      expect a_list, to_not: be_empty
+      expect a_list, to_not: be_empty()
     end
 
     test "includes element", %{actual: a_list} do
@@ -67,7 +67,7 @@ defmodule ListMatchersTest do
     end
 
     test "is not empty" do
-      expect_assertion_to_fail fn() -> expect [], to_not: be_empty end
+      expect_assertion_to_fail fn() -> expect [], to_not: be_empty() end
     end
 
     test "includes element", %{actual: a_list} do
