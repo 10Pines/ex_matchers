@@ -3,13 +3,13 @@ defmodule ExMatchers.Mixfile do
 
   def project do
     [app: :ex_matchers,
-     version: "0.1.1",
-     elixir: "~> 1.3",
-     package: package,
+     version: "0.1.2",
+     elixir: "~> 1.4",
+     package: package(),
      description: "Matchers for ExUnit assertions",
      source_url: "https://github.com/10Pines/ex_matchers",
      homepage_url: "https://hex.pm/packages/ex_matchers",
-     deps: deps,
+     deps: deps(),
      docs: [
        main: "readme",
        extras: [
@@ -24,7 +24,7 @@ defmodule ExMatchers.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.12.0", only: :dev}
+      {:ex_doc, "~> 0.15.0", only: :dev}
     ]
   end
 
