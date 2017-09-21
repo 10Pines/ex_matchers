@@ -47,7 +47,7 @@ defmodule ExMatchers.Size do
   defimpl SizeMatcher, for: BitString do
     
     match_logic(string, size) do
-      byte_size(String.strip(string)) == size
+      byte_size(String.trim(string)) == size
     end
 
     def to_match(value) do
