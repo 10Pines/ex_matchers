@@ -47,13 +47,13 @@ defmodule ExMatchers.Size do
       to_match(value, 0)
     end
     def to_match(value, size) do
-      assert byte_size(String.strip(value)) == size
+      assert byte_size(String.trim(value)) == size
     end
     def to_not_match(value) do
       to_not_match(value, 0)
     end
     def to_not_match(value, size) do
-      refute byte_size(String.strip(value)) == size
+      refute byte_size(String.trim(value)) == size
     end
   end
 
