@@ -3,28 +3,26 @@ defmodule ExMatchers.Match do
 
   import ExUnit.Assertions
   import ExMatchers.Custom
+  import ExMatchers.Helpers
 
   defprotocol MatchMatcher do
     @fallback_to_any true
+
     def to_match(actual, regex)
     def to_not_match(actual, regex)
   end
 
   defimpl MatchMatcher, for: BitString do
-    def to_match(actual, regex) do
-      assert Regex.match?(regex, actual)
-    end
-    def to_not_match(actual, regex) do
-      refute Regex.match?(regex, actual)
+
+    match_logic(actual, regex) do
+      Regex.match?(regex, actual)
     end
   end
 
   defimpl MatchMatcher, for: Any do
-    def to_match(actual, regex) do
-      flunk "Match not supported between #{actual} and #{regex}"
-    end
-    def to_not_match(actual, regex) do
-      flunk "Match not supported between #{actual} and #{regex}"
+    
+    unsupported(actual, regex) do
+      "Match not supported between #{actual} and #{regex}"
     end
   end
 
