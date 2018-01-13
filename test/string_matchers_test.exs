@@ -55,6 +55,10 @@ defmodule StringMatchersTest do
     test "does not match a regex", %{actual: a_string} do
       expect a_string, to_not: match(~r/Bye/)
     end
+
+    test "can be written withouth spliting infinitives", %{actual: a_string} do
+      expect a_string, not_to: eq("Hello Clojure")
+    end
   end
 
   describe "a string failed assertions" do
