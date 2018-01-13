@@ -3,8 +3,8 @@ defmodule ExMatchers.Mixfile do
 
   def project do
     [app: :ex_matchers,
-     version: "0.1.2",
-     elixir: "~> 1.4",
+     version: "0.1.3",
+     elixir: "~> 1.5",
      package: package(),
      description: "Matchers for ExUnit assertions",
      source_url: "https://github.com/10Pines/ex_matchers",
