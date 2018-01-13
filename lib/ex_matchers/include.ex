@@ -27,14 +27,32 @@ defmodule ExMatchers.Include do
   end
 
   defimpl IncludeMatcher, for: List do
+    def to_match([{_k, _v} | _t] = value, key) do
+      assert Keyword.has_key?(value, key)
+    end
     def to_match(list, element) do
       assert Enum.member?(list, element)
+    end
+    def to_match([{_k, _v} | _t] = value, keys, expected_value) when is_list(keys) do
+      assert get_in(value, keys) == expected_value
+    end
+    def to_match([{_k, _v} | _t] = value, key, expected_value) do
+      assert value[key] == expected_value
     end
     def to_match(list, element, expected_value) do
       flunk "Includes not supported from #{element} in #{list} with #{expected_value}"
     end
+    def to_not_match([{_k, _v} | _t] = value, key) do
+      refute Keyword.has_key?(value, key)
+    end
     def to_not_match(list, element) do
       refute Enum.member?(list, element)
+    end
+    def to_not_match([{_k, _v} | _t] = value, keys, expected_value) when is_list(keys) do
+      refute get_in(value, keys) == expected_value
+    end
+    def to_not_match([{_k, _v} | _t] = value, key, expected_value) do
+      refute value[key] == expected_value
     end
     def to_not_match(list, element, expected_value) do
       flunk "Includes not supported from #{element} in #{list} with #{expected_value}"
