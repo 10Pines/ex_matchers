@@ -72,6 +72,21 @@ defmodule ExMatchers.Size do
     end
   end
 
+  defimpl SizeMatcher, for: MapSet do
+    def to_match(value) do
+      to_match(value, 0)
+    end
+    def to_match(value, size) do
+      assert MapSet.size(value) == size
+    end
+    def to_not_match(value) do
+      to_not_match(value, 0)
+    end
+    def to_not_match(value, size) do
+      refute MapSet.size(value) == size
+    end
+  end
+
   defimpl SizeMatcher, for: Range do
     def to_match(value) do
       to_match(value, 0)
@@ -96,16 +111,16 @@ defmodule ExMatchers.Size do
 
   defimpl SizeMatcher, for: Any do
     def to_match(value) do
-      flunk "Size not supported for #{value}"
+      flunk "Size not supported for #{inspect(value)}"
     end
     def to_match(value, size) do
-      flunk "Size not supported for #{value} with size #{size}"
+      flunk "Size not supported for #{inspect(value)} with size #{size}"
     end
     def to_not_match(value) do
-      flunk "Size not supported for #{value}"
+      flunk "Size not supported for #{inspect(value)}"
     end
     def to_not_match(value, size) do
-      flunk "Size not supported for #{value} with size #{size}"
+      flunk "Size not supported for #{inspect(value)} with size #{size}"
     end
   end
 

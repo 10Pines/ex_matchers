@@ -19,6 +19,10 @@ defmodule IsEmptyMatchersTest do
     test "a list" do
       expect [], to: be_empty()
     end
+
+    test "a map set" do
+      expect MapSet.new(), to: be_empty()
+    end
   end
 
   describe "is empty failed assertions" do
