@@ -119,6 +119,6 @@ Add `ex_matchers` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ex_matchers, "~> 0.1.2", only: :test}]
+  [{:ex_matchers, "~> 0.1.5", only: :test}]
 end
 ```
